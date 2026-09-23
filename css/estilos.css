@@ -503,7 +503,7 @@ img{ max-width:100%; display:block; }
 }
 .galeria img{
   width:100%;
-  aspect-ratio:3/4;
+  aspect-ratio:2/3;
   object-fit:cover;
   border-radius:4px;
   background:rgba(62,74,44,.12);
