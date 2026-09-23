@@ -69,37 +69,9 @@
   }
 
   /* ---------------------------------------------------
-     2. Confirmar asistencia (contador)
-     Cada toque cuenta como una confirmación. Se guarda
-     en el propio dispositivo del invitado.
+     2. Confirmar asistencia
+     El contador en vivo lo maneja js/rsvp.js (Firebase).
      --------------------------------------------------- */
-  const btnRsvp    = $("#btnRsvp");
-  const rsvpGracias = $("#rsvpGracias");
-  const rsvpConta  = $("#rsvpContador");
-  const CLAVE_RSVP = "boda_confirmaciones";
-
-  function leerConfirmaciones() {
-    try { return parseInt(localStorage.getItem(CLAVE_RSVP), 10) || 0; }
-    catch (e) { return 0; }
-  }
-  function mostrarConfirmaciones(n) {
-    if (!rsvpConta) return;
-    rsvpConta.textContent = n > 0
-      ? (n === 1 ? "1 confirmación registrada 🎉" : n + " confirmaciones registradas 🎉")
-      : "";
-  }
-
-  mostrarConfirmaciones(leerConfirmaciones());
-
-  if (btnRsvp) {
-    btnRsvp.addEventListener("click", function () {
-      let n = leerConfirmaciones() + 1;
-      try { localStorage.setItem(CLAVE_RSVP, String(n)); } catch (e) {}
-      if (rsvpGracias) rsvpGracias.hidden = false;
-      mostrarConfirmaciones(n);
-      btnRsvp.classList.add("btn--ok");
-    });
-  }
 
   /* ---------------------------------------------------
      3. Galería
