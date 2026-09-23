@@ -39,9 +39,9 @@ const DATOS = {
   /* ---------- RECEPCIÓN ---------- */
   recepcion: {
     hora:      "Después de la misa",
-    lugar:     "Ex-Hacienda San Lorenzo",
-    direccion: "Camino Ex-Hacienda San Lorenzo Km. 0.5, Aguascalientes, 20920",
-    mapa:      "https://maps.app.goo.gl/Bx7rYZW2PFLybVSf6?g_st=iw"
+    lugar:     "Salón La Huerta",
+    direccion: "Jesús María, Ags., C.P. 20927",
+    mapa:      "https://maps.app.goo.gl/FNwjdk3vqJsbuKyw7?g_st=aw"
   },
 
   /* ---------- PADRINOS Y PADRES ---------- */
