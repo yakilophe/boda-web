@@ -1,0 +1,631 @@
+/* =====================================================
+   Invitación de boda — estilos
+   Mobile first · probado para iOS (Safari) y Android (Chrome)
+   ===================================================== */
+
+:root{
+  --crema:        #F6F1E7;
+  --crema-clara:  #FBF8F2;
+  --verde:        #3E4A2C;
+  --verde-suave:  #6F7757;
+  --terracota:    #9C4A2F;
+  --oro:          #B79A63;
+  --tinta:        #2F2B24;
+
+  --ancho:        520px;   /* ancho máximo de las tarjetas */
+  --radio:        18px;
+  --sombra:       0 18px 40px rgba(30,28,22,.18);
+
+  --display:      "Pinyon Script", "Segoe Script", cursive;
+  --titulo:       "Prata", Georgia, "Times New Roman", serif;
+  --cuerpo:       "Cormorant Garamond", Georgia, serif;
+}
+
+*,
+*::before,
+*::after{ box-sizing:border-box; }
+
+html{
+  -webkit-text-size-adjust:100%;   /* iOS no agranda el texto al girar */
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  font-family:var(--cuerpo);
+  font-size:18px;
+  line-height:1.55;
+  color:var(--tinta);
+  background:var(--verde);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+body.bloqueado{ overflow:hidden; height:100%; }
+
+img{ max-width:100%; display:block; }
+
+/* ---------- VIDEO DE FONDO ---------- */
+.fondo{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  background:#2A2E22;
+}
+.fondo video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.fondo__velo{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(20,22,16,.55) 0%, rgba(20,22,16,.30) 35%, rgba(20,22,16,.55) 100%);
+}
+
+/* ---------- PUERTA DE ENTRADA ---------- */
+.puerta{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
+  background:rgba(23,26,19,.72);
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+  transition:opacity .7s ease, visibility .7s;
+}
+.puerta.fuera{ opacity:0; visibility:hidden; pointer-events:none; }
+
+.puerta__caja{
+  width:100%;
+  max-width:var(--ancho);
+  text-align:center;
+  color:var(--crema-clara);
+}
+.puerta__eyebrow,
+.hero__eyebrow{
+  margin:0 0 6px;
+  font-size:13px;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  opacity:.85;
+}
+.puerta__nombres{
+  margin:0;
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(46px, 15vw, 74px);
+  line-height:1.05;
+}
+.puerta__frase{
+  margin:14px auto 26px;
+  max-width:24ch;
+  font-size:19px;
+  font-style:italic;
+  opacity:.92;
+}
+.puerta__nota{
+  margin:14px 0 0;
+  font-size:13px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  opacity:.7;
+}
+
+/* ---------- BOTONES ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:14px 34px;
+  border:0;
+  border-radius:10px;
+  background:var(--verde);
+  color:var(--crema-clara);
+  font-family:var(--cuerpo);
+  font-size:19px;
+  letter-spacing:.04em;
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform .15s ease, background .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:active{ transform:scale(.97); }
+.btn:hover{ background:#334023; }
+.btn--grande{ min-height:58px; padding:16px 44px; font-size:20px; }
+.btn--linea{
+  background:transparent;
+  color:var(--verde);
+  border:1px solid var(--verde);
+}
+.btn--linea:hover{ background:rgba(62,74,44,.08); color:var(--verde); }
+
+.link-mini{
+  margin-top:18px;
+  background:none;
+  border:0;
+  color:var(--verde-suave);
+  font-family:var(--cuerpo);
+  font-size:15px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  text-decoration:underline;
+  text-underline-offset:4px;
+  cursor:pointer;
+  min-height:44px;
+}
+
+/* ---------- BOTÓN DE MÚSICA ---------- */
+.musica-btn{
+  position:fixed;
+  right:14px;
+  bottom:calc(14px + env(safe-area-inset-bottom));
+  z-index:90;
+  width:52px;
+  height:52px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  border-radius:50%;
+  background:rgba(62,74,44,.88);
+  box-shadow:0 6px 18px rgba(0,0,0,.28);
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.musica-btn.visible{ display:flex; }
+.ico-nota{
+  width:22px; height:22px;
+  fill:none; stroke:var(--crema-clara); stroke-width:1.6;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.musica-btn__ondas{ position:absolute; inset:0; border-radius:50%; }
+.musica-btn.sonando .musica-btn__ondas::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border:1px solid rgba(246,241,231,.5);
+  border-radius:50%;
+  animation:pulso 2.4s ease-out infinite;
+}
+@keyframes pulso{
+  0%{ transform:scale(.9); opacity:.7; }
+  100%{ transform:scale(1.25); opacity:0; }
+}
+.musica-btn:not(.sonando) .ico-nota{ opacity:.45; }
+
+/* ---------- CONTENIDO ---------- */
+.contenido{
+  position:relative;
+  z-index:10;
+  padding:0 18px 64px;
+  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100vh;
+  min-height:100svh;   /* evita el salto de la barra del navegador en móvil */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:var(--crema-clara);
+  text-shadow:0 2px 18px rgba(0,0,0,.45);
+  position:relative;
+  padding:80px 6px;
+}
+.hero__nombres{
+  margin:0;
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(50px, 17vw, 86px);
+  line-height:1;
+}
+.amp{
+  display:block;
+  font-family:var(--titulo);
+  font-size:.30em;
+  color:var(--oro);
+  margin:2px 0;
+}
+.hero__frase{
+  margin:18px auto 0;
+  max-width:26ch;
+  font-size:20px;
+  font-style:italic;
+}
+.hero__flecha{
+  position:absolute;
+  left:50%;
+  bottom:36px;
+  transform:translateX(-50%);
+  width:48px; height:48px;
+  display:flex; align-items:center; justify-content:center;
+  animation:flota 2.2s ease-in-out infinite;
+}
+.hero__flecha svg{
+  width:30px; height:30px;
+  fill:none; stroke:var(--crema-clara); stroke-width:1.4;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+@keyframes flota{
+  0%,100%{ transform:translate(-50%,0); }
+  50%{ transform:translate(-50%,9px); }
+}
+
+/* ---------- TARJETAS ---------- */
+.tarjeta{
+  width:100%;
+  max-width:var(--ancho);
+  margin:0 auto 26px;
+  padding:38px 26px 34px;
+  text-align:center;
+  background:var(--crema-clara);
+  border-radius:var(--radio);
+  box-shadow:var(--sombra);
+}
+.tarjeta--aire{ background:rgba(251,248,242,.94); }
+
+.titulo{
+  margin:0 0 4px;
+  font-family:var(--titulo);
+  font-weight:400;
+  font-size:34px;
+  letter-spacing:.01em;
+  color:var(--verde);
+}
+.titulo--bloque{
+  font-size:30px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.titulo--claro{ color:var(--crema-clara); text-shadow:0 2px 14px rgba(0,0,0,.45); }
+
+.regla{
+  display:block;
+  width:110px;
+  height:1px;
+  margin:14px auto;
+  background:var(--oro);
+}
+.regla--ancha{ width:100%; background:rgba(62,74,44,.28); }
+.regla--clara{ background:rgba(246,241,231,.6); }
+
+.sub{
+  margin:10px auto 0;
+  max-width:30ch;
+  font-size:17px;
+  color:var(--verde-suave);
+  letter-spacing:.02em;
+}
+.sub--claro{ color:var(--crema-clara); text-shadow:0 2px 12px rgba(0,0,0,.45); }
+
+.destacado{
+  margin:14px 0 0;
+  font-family:var(--titulo);
+  font-size:22px;
+  color:var(--terracota);
+}
+
+.ico{
+  width:60px;
+  height:auto;
+  margin:18px auto 6px;
+  display:block;
+  fill:none;
+  stroke:var(--oro);
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.ico--claro{ stroke:rgba(246,241,231,.85); width:48px; }
+
+.mes{
+  margin:18px 0 6px;
+  font-size:17px;
+  letter-spacing:.42em;
+  text-indent:.42em;
+  text-transform:capitalize;
+  color:var(--verde-suave);
+}
+
+.fecha-fila{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+}
+.fecha-fila__lado{
+  flex:1 1 0;
+  font-size:15px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--verde);
+  border-top:1px solid rgba(62,74,44,.3);
+  padding-top:10px;
+}
+.fecha-fila__num{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  line-height:1;
+}
+.fecha-fila__num strong{
+  font-family:var(--titulo);
+  font-weight:400;
+  font-size:62px;
+  color:var(--verde);
+}
+.fecha-fila__num em{
+  font-style:normal;
+  font-size:18px;
+  color:var(--verde-suave);
+  margin-top:4px;
+}
+
+.lugar{
+  margin:22px 0 2px;
+  font-family:var(--titulo);
+  font-size:21px;
+  color:var(--terracota);
+}
+.dir{
+  margin:0 0 22px;
+  font-size:16px;
+  color:var(--verde-suave);
+}
+
+/* ---------- RASPADITOS ---------- */
+.raspaditos{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:16px;
+  margin-top:26px;
+}
+.raspa{
+  position:relative;
+  width:138px;
+  height:138px;
+  border-radius:50%;
+  background:var(--crema);
+  box-shadow:0 4px 14px rgba(62,74,44,.16), inset 0 0 0 1px rgba(183,154,99,.35);
+  overflow:hidden;
+  touch-action:none;          /* la página no hace scroll mientras se raspa */
+  user-select:none;
+  -webkit-user-select:none;
+}
+.raspa:nth-child(3){ margin-top:2px; }
+.raspa__valor{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  padding:8px;
+}
+.raspa__valor strong{
+  font-family:var(--titulo);
+  font-weight:400;
+  font-size:42px;
+  line-height:1;
+  color:var(--verde);
+}
+.raspa__valor strong.chico{ font-size:21px; }   /* para meses largos: "Septiembre" */
+.raspa__valor span{
+  font-size:12px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--verde-suave);
+}
+.raspa__capa{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  cursor:grab;
+  transition:opacity .6s ease;
+}
+.raspa.listo .raspa__capa{ opacity:0; pointer-events:none; }
+
+/* ---------- CUENTA REGRESIVA ---------- */
+.cuenta{
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  margin-top:18px;
+}
+.cuenta__bloque{
+  flex:1 1 0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  padding:0 4px;
+}
+.cuenta__bloque + .cuenta__bloque{ border-left:1px solid rgba(62,74,44,.22); }
+.cuenta__bloque strong{
+  font-family:var(--titulo);
+  font-weight:400;
+  font-size:clamp(30px, 9vw, 42px);
+  line-height:1;
+  color:var(--terracota);
+  font-variant-numeric:tabular-nums;
+}
+.cuenta__bloque span{
+  font-size:14px;
+  color:var(--verde-suave);
+}
+.corazon{
+  width:44px; height:44px;
+  margin:18px auto 22px;
+  display:block;
+  fill:var(--oro);
+  stroke:none;
+}
+
+/* ---------- GALERÍA ---------- */
+.galeria-sec{
+  max-width:var(--ancho);
+  margin:34px auto 30px;
+  text-align:center;
+}
+.galeria{
+  display:flex;
+  gap:14px;
+  margin-top:22px;
+  padding:4px 10vw 14px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.galeria::-webkit-scrollbar{ display:none; }
+.galeria figure{
+  flex:0 0 80%;
+  margin:0;
+  scroll-snap-align:center;
+  background:var(--crema-clara);
+  padding:12px 12px 16px;
+  border-radius:8px;
+  box-shadow:var(--sombra);
+}
+.galeria img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border-radius:4px;
+  background:rgba(62,74,44,.12);
+}
+.galeria figcaption{
+  margin-top:10px;
+  font-size:15px;
+  font-style:italic;
+  color:var(--verde-suave);
+}
+.galeria__puntos{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  margin-top:6px;
+}
+.galeria__puntos i{
+  width:6px; height:6px;
+  border-radius:50%;
+  background:rgba(246,241,231,.45);
+  transition:background .25s ease, transform .25s ease;
+}
+.galeria__puntos i.on{ background:var(--crema-clara); transform:scale(1.35); }
+
+/* ---------- DESPLEGABLES ---------- */
+.desplegable{ margin-top:20px; text-align:left; }
+.desplegable summary{
+  list-style:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:52px;
+  padding:14px 28px;
+  border-radius:10px;
+  background:var(--verde);
+  color:var(--crema-clara);
+  font-size:19px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.desplegable summary::-webkit-details-marker{ display:none; }
+.desplegable[open] summary{ background:var(--verde-suave); }
+.desplegable__cuerpo{
+  padding:18px 6px 2px;
+  font-size:17px;
+  color:var(--tinta);
+}
+.desplegable__cuerpo p{ margin:0 0 12px; }
+.desplegable__cuerpo strong{ color:var(--verde); }
+
+/* ---------- PADRINOS Y PADRES ---------- */
+.familia{
+  margin-top:22px;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+.familia__grupo{ }
+.familia__rol{
+  margin:0 0 8px;
+  font-size:14px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--verde-suave);
+}
+.familia__nombre{
+  margin:2px 0;
+  font-family:var(--titulo);
+  font-size:20px;
+  color:var(--verde);
+}
+
+/* ---------- CONFIRMAR ASISTENCIA ---------- */
+.rsvp__gracias{
+  margin:16px 0 0;
+  font-family:var(--titulo);
+  font-size:20px;
+  color:var(--terracota);
+}
+.rsvp__contador{
+  margin:8px 0 0;
+  font-size:16px;
+  color:var(--verde-suave);
+  letter-spacing:.02em;
+}
+.btn--ok{ background:var(--verde-suave); }
+.btn--ok:hover{ background:var(--verde-suave); }
+
+/* ---------- CIERRE ---------- */
+.cierre{
+  max-width:var(--ancho);
+  margin:46px auto 10px;
+  text-align:center;
+  color:var(--crema-clara);
+  text-shadow:0 2px 16px rgba(0,0,0,.45);
+  padding-bottom:30px;
+}
+.cierre__texto{
+  margin:8px 0 0;
+  font-size:21px;
+  font-style:italic;
+}
+
+/* ---------- APARICIÓN AL HACER SCROLL ---------- */
+.reveal{
+  opacity:0;
+  transform:translateY(26px);
+  transition:opacity .8s ease, transform .8s ease;
+}
+.reveal.visible{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion:reduce){
+  .reveal{ opacity:1; transform:none; transition:none; }
+  .hero__flecha{ animation:none; }
+  html{ scroll-behavior:auto; }
+}
+
+/* ---------- PANTALLAS GRANDES ---------- */
+@media (min-width:700px){
+  body{ font-size:19px; }
+  .tarjeta{ padding:48px 42px 42px; }
+  .galeria{ padding-left:0; padding-right:0; }
+  .galeria figure{ flex:0 0 48%; }
+}
