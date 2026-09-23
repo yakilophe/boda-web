@@ -77,7 +77,7 @@ const DATOS = {
   galeria: [
     { src: "assets/img/1.jpg",  texto: "" },
     { src: "assets/img/2.jpg",  texto: "" },
-    { src: "assets/img/3.jpg",  texto: "" },
+    { src: "assets/img/8.jpg",  texto: "" },
     { src: "assets/img/5.jpg",  texto: "" },
     { src: "assets/img/6.jpg",  texto: "" },
     { src: "assets/img/7.jpg",  texto: "" }
